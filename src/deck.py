@@ -29,19 +29,6 @@ class Deck(object):
         random.shuffle(self.cards)
 
     def draw_card(self) -> Card:
-        """Draws a card from the deck. Returns None if the deck is empty."""
+        """Draws a card from the deck."""
         if len(self.cards) == 0: raise EmptyDeckError
         return self.cards.pop()
-
-
-if __name__ == '__main__':
-    deck = Deck()
-    print(deck)
-    print(deck.draw_card())
-    print(deck)
-    deck.reset_deck()
-    print(deck)
-    for _ in range(52):
-        deck.draw_card()
-    print(deck)
-    print(deck.draw_card())

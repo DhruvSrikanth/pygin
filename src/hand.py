@@ -34,15 +34,6 @@ class Hand(object):
         if not self.has_card(card=card): raise CardDoesNotExistError
         self.cards.remove(card)
 
-
-if __name__ == '__main__':
-    from deck import Deck
-
-    deck = Deck()
-    hand = Hand()
-    hand.add_card(deck.draw_card())
-    hand.add_card(deck.draw_card())
-    hand.add_card(deck.draw_card())
-    print(hand)
-    hand.remove_card(hand[0])
-    for card in hand: print(card)
+    def clear(self):
+        """Resets the hand to an empty set of cards."""
+        self.cards = []

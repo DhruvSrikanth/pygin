@@ -17,10 +17,3 @@ class Card:
 
     def __hash__(self):
         return hash((self.rank, self.suit))
-
-
-if __name__ == '__main__':
-    card = Card('Q', 'Hearts')
-    print(card)
-    print(card == Card('Q', 'Hearts'))
-    print(card == Card('Q', 'Spades'))
