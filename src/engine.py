@@ -23,11 +23,11 @@ Rules:
 19. The game ends when a player reaches 100 points.
 """
 
-from copy import deepcopy
 from player import Player
 from deck import Deck
 from hand import Hand
 from card import Card
+from utils import mark_deadwood
 from constants import HAND_SIZE, KNOCK_LIMIT, GIN_BONUS, BIG_GIN_BONUS, UNDERCUT_BONUS, MAX_SCORE, ROUND_WIN_BONUS
 
 
@@ -86,8 +86,7 @@ class GinRummyEngine(object):
 
     def mark_deadwood(self, hand: Hand) -> Hand:
         """Mark the deadwood cards in a given hand."""
-        hand_copy = deepcopy(hand)
-        raise NotImplementedError
+        return mark_deadwood(hand=hand)
 
     def get_card_value(self, card: Card) -> int:
         """Get the value of a card for scoring purposes."""
@@ -134,19 +133,19 @@ class GinRummyEngine(object):
         for player in self.players: player.clear_hand()
         self.deal_initial_hands()
 
-    def reset_game(self):
-        """Reset the game state for a new game."""
-        self.scores = [0, 0]
-        self.rounds_won = [0, 0]
-        self.reset_round()
-
     def compute_final_scores(self):
         self.scores[self.get_current_player_idx()] += self.rounds_won[self.get_current_player_idx()] * ROUND_WIN_BONUS
         self.scores[self.get_opponent_player_idx()] += self.rounds_won[self.get_opponent_player_idx()] * ROUND_WIN_BONUS
 
     def play_game(self):
         """Play the Gin Rummy game."""
-        raise NotImplementedError
+        while max(self.scores) < MAX_SCORE:
+            self.reset_round()
+            self.play_round()
+        self.compute_final_scores()
+        print(f"Player 1: {self.scores[0]} points")
+        print(f"Player 2: {self.scores[1]} points")
+        print(f"Player {self.scores.index(max(self.scores)) + 1} wins!")
 
 
 if __name__ == "__main__":
