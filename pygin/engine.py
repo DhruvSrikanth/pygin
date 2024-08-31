@@ -28,7 +28,7 @@ from deck import Deck
 from hand import Hand
 from card import Card
 from utils import mark_deadwood
-from constants import HAND_SIZE, KNOCK_LIMIT, GIN_BONUS, BIG_GIN_BONUS, UNDERCUT_BONUS, MAX_SCORE, ROUND_WIN_BONUS
+from constants import HAND_SIZE, KNOCK_LIMIT, GIN_BONUS, BIG_GIN_BONUS, UNDERCUT_BONUS, ROUND_WIN_BONUS
 
 
 class GinRummyEngine(object):
@@ -136,18 +136,3 @@ class GinRummyEngine(object):
     def compute_final_scores(self):
         self.scores[self.get_current_player_idx()] += self.rounds_won[self.get_current_player_idx()] * ROUND_WIN_BONUS
         self.scores[self.get_opponent_player_idx()] += self.rounds_won[self.get_opponent_player_idx()] * ROUND_WIN_BONUS
-
-    def play_game(self):
-        """Play the Gin Rummy game."""
-        while max(self.scores) < MAX_SCORE:
-            self.reset_round()
-            self.play_round()
-        self.compute_final_scores()
-        print(f"Player 1: {self.scores[0]} points")
-        print(f"Player 2: {self.scores[1]} points")
-        print(f"Player {self.scores.index(max(self.scores)) + 1} wins!")
-
-
-if __name__ == "__main__":
-    engine = GinRummyEngine()
-    engine.play_game()
