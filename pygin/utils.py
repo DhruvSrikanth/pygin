@@ -1,9 +1,9 @@
 from typing import List, Tuple
 from itertools import combinations, groupby
 from copy import deepcopy
-from card import Card
-from hand import Hand
-from constants import RANKS
+from .card import Card
+from .hand import Hand
+from .constants import RANKS
 
 
 def mark_deadwood(hand: Hand) -> Hand:

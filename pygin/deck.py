@@ -1,9 +1,9 @@
 import random
 from copy import deepcopy
 from typing import List
-from errors import EmptyDeckError
-from card import Card
-from constants import FULL_DECK
+from .errors import EmptyDeckError
+from .card import Card
+from .constants import FULL_DECK
 
 
 class Deck(object):

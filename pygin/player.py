@@ -1,6 +1,6 @@
-from card import Card
-from hand import Hand
-from errors import CardDoesNotExistError
+from .card import Card
+from .hand import Hand
+from .errors import CardDoesNotExistError
 
 
 class Player(object):

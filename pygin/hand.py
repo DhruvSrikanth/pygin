@@ -1,5 +1,5 @@
-from card import Card
-from errors import CardDoesNotExistError
+from .card import Card
+from .errors import CardDoesNotExistError
 
 
 class Hand(object):

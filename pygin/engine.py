@@ -23,12 +23,13 @@ Rules:
 19. The game ends when a player reaches 100 points.
 """
 
-from player import Player
-from deck import Deck
-from hand import Hand
-from card import Card
-from utils import mark_deadwood
-from constants import HAND_SIZE, KNOCK_LIMIT, GIN_BONUS, BIG_GIN_BONUS, UNDERCUT_BONUS, ROUND_WIN_BONUS
+import random
+from .player import Player
+from .deck import Deck
+from .hand import Hand
+from .card import Card
+from .utils import mark_deadwood
+from .constants import HAND_SIZE, KNOCK_LIMIT, GIN_BONUS, BIG_GIN_BONUS, UNDERCUT_BONUS, ROUND_WIN_BONUS
 
 
 class GinRummyEngine(object):
@@ -36,15 +37,24 @@ class GinRummyEngine(object):
         self.players = [Player(name=player1), Player(name=player2)]
         self.deck = Deck()
         self.discard_stack = []
-        self.current_player_index = 0
+        self.start_player_idx = random.randint(0, 1)
+        self.current_player_index = self.start_player_idx
         self.scores = [0, 0]
         self.rounds_won = [0, 0]
+
+    def get_player(self, player_name: str) -> Player:
+        """Return the player object with the given name."""
+        return next((p for p in self.players if p.name == player_name), None)
 
     def deal_initial_hands(self):
         """Deal 10 cards to each player from the deck."""
         for _ in range(HAND_SIZE):
-            for player in self.players:
-                player.take_card(card=self.deck.draw_card())
+            for idx in [self.start_player_idx, self.get_next_player_idx(player_idx=self.start_player_idx)]:
+                self.players[idx].take_card(card=self.deck.draw_card())
+
+    def get_next_player_idx(self, player_idx: int) -> int:
+        """Return the index of the next player."""
+        return (player_idx + 1) % 2
 
     def get_current_player_idx(self) -> int:
         """Return the index of the current player."""
@@ -131,6 +141,7 @@ class GinRummyEngine(object):
         self.deck.reset_deck()
         self.discard_stack = []
         for player in self.players: player.clear_hand()
+        self.start_player_idx = self.get_next_player_idx(player_idx=self.start_player_idx)
         self.deal_initial_hands()
 
     def compute_final_scores(self):

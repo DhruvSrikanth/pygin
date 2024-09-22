@@ -17,3 +17,6 @@ class Card:
 
     def __hash__(self):
         return hash((self.rank, self.suit))
+
+    def to_dict(self):
+        return {"rank": self.rank, "suit": self.suit}
